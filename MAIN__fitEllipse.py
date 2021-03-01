@@ -32,7 +32,7 @@ SAVE_csv = SAVE_DIR + '/' + 'ellipse_params.csv'
 img_paths = obtain_paths_of_files_in_string(IMG_DIR, IMG_FORMAT)
 df = []
 
-for path in tqdm(img_paths[:10]):
+for path in tqdm(img_paths):
     ic(path + '\n')
     org_img = cv.imread(path)
     grey_img = convert_to_greyscale_for_findContours(path)
@@ -58,12 +58,7 @@ for path in tqdm(img_paths[:10]):
     (center_x, center_y) = ellipse_params[0]
     img_with_center = cv.circle(img_with_ellipse, (center_x, center_y), 80, (200,100,255), -1)
 
-    # draw foci 1
-    foci_1, foci_2 = ellipse_params[1], ellipse_params[2]
-    img_with_foci_1 = cv.circle(img_with_center, foci_1, 50, (0, 100, 255), -1)
-
-    double_check_img = np.hstack((org_img*255, img_with_foci_1))
-    # double_check_img = np.hstack((org_img*255, img_with_ellipse))
+    double_check_img = np.hstack((org_img*255, img_with_center))
     if SHOW_IMG:
         plt.imshow(double_check_img)
         plt.show()
